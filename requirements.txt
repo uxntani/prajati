@@ -1,5 +1,4 @@
-streamlit
-google-generativeai
-PIL
-Image
-pandas
+Streamlit
+Google-generativeai
+Pillow
+Pandas

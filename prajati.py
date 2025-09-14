@@ -117,25 +117,24 @@ if prompt := st.chat_input("Ask me anything about cow breeds!"):
         max_output_tokens=100,  # Limits the response length
         temperature=0.7,        # Controls randomness; lower value for more focused responses
     )
+    
+    # Use streaming to display the response word by word
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
         
-        # Stream the response
-        for chunk in gemini_model.generate_content(prompt, stream=True):
-            full_response += chunk.text
-            message_placeholder.markdown(full_response + "▌")
-        
-        message_placeholder.markdown(full_response)
+        try:
+            # Stream the response
+            for chunk in gemini_model.generate_content(prompt, stream=True, generation_config=generation_config):
+                full_response += chunk.text
+                message_placeholder.markdown(full_response + "▌")
+            
+            # The '▌' is removed and the final response is displayed
+            message_placeholder.markdown(full_response)
+            
+            # Add the final assistant response to chat history
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-    # Get a response from the LLM
-    try:
-        response = gemini_model.generate_content(prompt)
-        assistant_response = response.text
-    except Exception as e:
-        assistant_response = "Sorry, I am unable to generate a response at this moment. Please try again later."
-    
-    # Display assistant response
-    with st.chat_message("assistant"):
-        st.markdown(assistant_response)
-    st.session_state.messages.append({"role": "assistant", "content": assistant_response})
+        except Exception as e:
+            st.error("Sorry, I am unable to generate a response at this moment. Please try again later.")
+            st.session_state.messages.append({"role": "assistant", "content": "Sorry, I am unable to generate a response at this moment. Please try again later."})

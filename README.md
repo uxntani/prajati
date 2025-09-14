@@ -44,3 +44,7 @@ A simple Streamlit web application that helps you:
 ## Demo
 
 https://prajati-uxntani.streamlit.app/
+
+## Please Note
+
+This is a basic model and works only for specific images, development is still on going. 

@@ -43,4 +43,4 @@ A simple Streamlit web application that helps you:
 
 ## Demo
 
-Demo coming soon... Stay tunned for updates
+https://prajati-uxntani.streamlit.app/
